@@ -13,15 +13,16 @@ export class AppComponent implements OnInit {
   // title = 'employeemanagerapp';
 
   public employees: Employee[] = [];
+  public editEmployee: Employee;
 
-  constructor(private EmployeeService: EmployeeService){}
+  constructor(private employeeService: EmployeeService){}
 
   ngOnInit(){
     this.getEmployees();
   }
 
   getEmployees(): void {
-    this.EmployeeService.getEmployees().subscribe(
+    this.employeeService.getEmployees().subscribe(
       (response: Employee[]) => {
         this.employees = response;
       },
@@ -33,7 +34,19 @@ export class AppComponent implements OnInit {
 
   public onAddEmployee(addForm : NgForm): void {
     document.getElementById('add-employee-form').click();
-    this.EmployeeService.addEmployee(addForm.value).subscribe(
+    this.employeeService.addEmployee(addForm.value).subscribe(
+      (response: Employee) => {
+        console.log(response);
+        this.getEmployees();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  public onUpdateEmployee(employee : Employee): void {
+    this.employeeService.updateEmployee(employee).subscribe(
       (response: Employee) => {
         console.log(response);
         this.getEmployees();
@@ -54,6 +67,7 @@ export class AppComponent implements OnInit {
       button.setAttribute('data-target', '#addEmployeeModal');
     }
     if (mode === 'edit') {
+      this.editEmployee = employee;
       button.setAttribute('data-target', '#updateEmployeeModal');
     }
     if (mode === 'delete') {
