@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
   }
 
   public onAddEmployee(addForm : NgForm): void {
-    document.getElementById('add-employee-form').click();
+    document.getElementById('#add-employee-form').click();
     this.employeeService.addEmployee(addForm.value).subscribe(
       (response: Employee) => {
         console.log(response);
@@ -43,6 +43,7 @@ export class AppComponent implements OnInit {
         alert(error.message);
       }
     );
+
   }
 
   public onUpdateEmployee(employee : Employee): void {
@@ -76,5 +77,6 @@ export class AppComponent implements OnInit {
 
     container.appendChild(button);
     button.click();
+
   }
 }
